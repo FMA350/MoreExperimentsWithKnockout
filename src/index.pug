@@ -1,0 +1,60 @@
+
+
+
+
+
+mixin form-group(name, id, type, pl, db, errorMessageFlag)
+    .form-group(data-bind="with: "+db)
+        input(name=id type=type 'placeholder'=pl data-bind="value: value, css:{'error' : modified() && (!valid())}")
+        if errorMessageFlag
+            .errorMessage(data-bind="text: message")
+
+mixin radio-form-group(genders, id, db)
+    .form-group(data-bind="with: "+ db)
+        each val in genders
+            .radio
+                input(type="radio" name="gender" value=val id="gender"+val data-bind="checked: value")
+                label(for="gender"+val)= val + "!"
+        .errorMessage(data-bind="text: message")
+
+
+    
+doctype html
+head
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title "sign page"
+    link(rel="stylesheet", href="style.css")
+    script(type="text/javascript" src="const.js")
+body
+    .header#header
+        h1 Welcome
+    .container
+        #signin.form(data-bind="visible: hasAccount")
+            h3 login
+            form(novalidate)
+                +form-group('email', 'emailLogin', 'email', 'enter your email', "arrayModel()[0]", false)
+                +form-group('password', 'passwordLogin', 'password', 'enter your password', "arrayModel()[1]", false)
+                .buttons
+                    button.btn.btn-cancel Cancel
+                    button.btn.btn-submit(type="button") Submit
+                .buttons
+                    button.btn.btn-toggle(data-bind="click: toggleSign") Not a member? Sign-up!
+        #signup.form(data-bind="hidden: hasAccount")
+            h3 signup
+            form(novalidate)
+                +form-group('email'   , 'emailSignup'    , 'email'   ,"enter your email"     , "arrayModel()[SIGNUP_EMAIL]", true)
+                +form-group('Password', 'passwordSignup1', "password", "Your password"       , "arrayModel()[SIGNUP_PASSWORD]", true)
+                +form-group('Password', 'passwordSignup2', "password", "Repeat your password", "arrayModel()[SIGNUP_REPEAT_PASSWORD]", true)
+                
+                +radio-form-group(["Fluid","Uknown","Human","Cyborg"], "radioSelectedOptionValue", "arrayModel()[GENDER]")
+                +form-group("dob","dob", "date", "", "arrayModel()[DOB]", true)
+                .buttons
+                    button.btn.btn-cancel Cancel
+                    button.btn.btn-submit(type="button" data-bind="click: noErrors") Submit
+                .buttons
+                    button.btn.btn-toggle(data-bind="click: toggleSign") Already a member? Login!
+
+
+    script(src="/Users/fr20070493/Documents/Development/web-development/experimentations2/node_modules/knockout/build/output/knockout-latest.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/knockout.mapping/2.4.1/knockout.mapping.min.js")
+    script(type="text/javascript" src="scripts.js")

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>"sign page"</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="header" id="header">
+    <h1>Welcome</h1>
+  </div>
+  <div class="container">
+    <div class="form" id="signin" data-bind="visible:hasAccount">
+      <h3>login</h3>
+      <form data-bind="submit: login" novalidate>
+        <div class="form-group" data-bind="css: {error : emailLoginFlag() === false }">
+          <input name="emailLogin" type="email" placeholder="enter your email" id="emailLogin" data-bind="value: emailLogin">
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="Password" id="passwordLogin" data-bind="value: passwordLogin">
+        </div>
+        <div class="buttons">
+          <button class="btn btn-cancel" data-bind="click:reset">Cancel</button>
+          <button class="btn btn-submit" type="submit">Submit</button>
+        </div>
+        <div class="buttons">
+          <button class="btn btn-toggle" data-bind="click:toggleSign">Not a member? Sign-up!</button>
+        </div>
+      </form>
+    </div>
+    <div class="form" id="signup" data-bind="hidden:hasAccount">
+      <h3>signup</h3>
+      <form data-bind="submit: signup" novalidate>
+        <div class="form-group" data-bind="css: {error : emailSignupFlag() === false }">
+          <input name="emailSignup" type="email" placeholder="enter your email" id="emailSignup" data-bind="event: {change : checkForm},value: emailSignup">
+        </div>
+        <div class="errorMessage" data-bind="text: emailSignupMessage"></div>
+        <div class="form-group" data-bind="css: {error : passwordSignup1Flag() === false }">
+          <input name="passwordSignup1" type="password" placeholder="Your password" id="passwordSignup1" data-bind="event:{change :checkForm},value: passwordSignup1">
+        </div>
+        <div class="errorMessage" data-bind="text: passwordSignup1Message"></div>
+        <div class="form-group" data-bind="css: {error : passwordSignup2Flag() === false }">
+          <input name="passwordSignup2" type="password" placeholder="Repeat your password" id="passwordSignup2" data-bind="event:{ change:checkForm},value: passwordSignup2">
+        </div>
+        <div class="errorMessage" data-bind="text: passwordSignup2Message"></div>
+        <div class="form-group" data-bind="css: {error : radioSelectedOptionValueFlag() === false }">
+          <div class="radio">
+            <input type="radio" name="gender" value="Fluid" id="genderFluid" data-bind="checked: radioSelectedOptionValue">
+            <label for="genderFluid">Fluid!</label>
+          </div>
+          <div class="radio">
+            <input type="radio" name="gender" value="Uknown" id="genderUknown" data-bind="checked: radioSelectedOptionValue">
+            <label for="genderUknown">Uknown!</label>
+          </div>
+          <div class="radio">
+            <input type="radio" name="gender" value="Human" id="genderHuman" data-bind="checked: radioSelectedOptionValue">
+            <label for="genderHuman">Human!</label>
+          </div>
+          <div class="radio">
+            <input type="radio" name="gender" value="Cyborg" id="genderCyborg" data-bind="checked: radioSelectedOptionValue">
+            <label for="genderCyborg">Cyborg!</label>
+          </div>
+          <div class="errorMessage" data-bind="text: radioSelectedOptionValueMessage"></div>
+        </div>
+        <div class="form-group" data-bind="css: {error : dobFlag() === false }">
+          <input name="dob" type="date" placeholder="" id="dob" data-bind="value: dob">
+        </div>
+        <div class="errorMessage" data-bind="text: dobMessage"></div>
+        <div class="buttons">
+          <button class="btn btn-cancel" data-bind="click:reset">Cancel</button>
+          <button class="btn btn-submit" type="submit">Submit</button>
+        </div>
+        <div class="buttons">
+          <button class="btn btn-toggle" data-bind="click:toggleSign">Already a member? Login!</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script type="text/javascript" src="../node_modules/knockout/build/output/knockout-latest.js"></script>
+  <script type="text/javascript" src="scripts.js"></script>
+</body>
