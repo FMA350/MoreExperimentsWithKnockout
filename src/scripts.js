@@ -43,7 +43,6 @@ function passwordValidation(fieldObject){
 }
 
 function repeatPasswordValidation(fieldObjects){
-    
     var firstPasswordField = fieldObjects.firstPassword,
     secondPasswordField    = fieldObjects.secondPassword
     secondPasswordField.modified(true)
@@ -123,20 +122,40 @@ function AppViewModel(){
     self.arrayModel()[GENDER].value.extend(                 {validation: {func: genderValidation,         param: self.arrayModel()[GENDER]}}) 
     self.arrayModel()[DOB].value.extend(                    {validation: {func: dobValidation,            param: self.arrayModel()[DOB]}}) 
     
+    self.login = function(){
+        var usrPsw = localStorage.getItem(self.arrayModel()[SIGNIN_EMAIL].value())
+        if (usrPsw == self.arrayModel()[SIGNIN_EMAIL].value() && usrPsw != null){
+            console.log("User has logged in!")
+            alert("usesr has logged in")
+        }
+        else{
+            console.log("passwords do not match!")
+            alert("email or password do not match")
+        }
+    }
+
+    self.signup = function(){
+        if(self.noErrors()){
+            localStorage.setItem(self.arrayModel()[SIGNUP_EMAIL].value(), self.arrayModel()[SIGNUP_PASSWORD].value());
+            alert(self.arrayModel()[SIGNUP_EMAIL].value()+" has correctly Signed-up!")
+        }
+        else{
+            console.log("test")
+           alert("SNAG! \nThere were errors in the form!")
+        }
+    }
+
     self.noErrors = function(){
         self.manualValidation()
         for(var i=2; i<7;i++){
             if (!self.arrayModel()[i].valid()){
-                console.log("found an error")
                 return false
             }
         }
-        console.log("all good")
         return true
     }
 
     self.manualValidation = function(){
-       // emailValidation(self.arrayModel()[SIGNUP_EMAIL])
        self.arrayModel()[SIGNUP_EMAIL].value.valueHasMutated()
        self.arrayModel()[SIGNUP_PASSWORD].value.valueHasMutated()
        self.arrayModel()[SIGNUP_REPEAT_PASSWORD].value.valueHasMutated()
